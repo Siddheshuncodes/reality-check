@@ -1,28 +1,28 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Questionnaire from "./pages/Questionnaire";
-import Result from "./pages/Result";
-import './css/App.css';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import '../css/Result.css';
 
-function App() {
-  const [answers, setAnswers] = useState(null);
+const Result = ({ answers }) => {
+  const navigate = useNavigate();
 
-  // This function will handle form submission
-  const handleFormSubmit = (formAnswers) => {
-    setAnswers(formAnswers);
-  };
+  if (!answers) {
+    return (
+      <div>
+        <h2>No data available!</h2>
+        <button onClick={() => navigate("/check")}>Go Back to Reality Check</button>
+      </div>
+    );
+  }
 
   return (
-    <Router>
-      <Routes>
-        {/* Passing the handleFormSubmit as onSubmit */}
-        <Route path="/" element={<Home />} />
-        <Route path="/check" element={<Questionnaire onSubmit={handleFormSubmit} />} />
-        <Route path="/result" element={<Result answers={answers} />} />
-      </Routes>
-    </Router>
+    <div className="result-container">
+      <h1>Your Reality Check Results</h1>
+      <p>Coding Skills: {answers.codingSkills}/10</p>
+      <p>Interview Preparation: {answers.interviewPrep}/10</p>
+      <p>Completed Projects: {answers.projects}</p>
+      <button onClick={() => navigate("/")}>Go Back to Home</button>
+    </div>
   );
-}
+};
 
-export default App;
+export default Result;
