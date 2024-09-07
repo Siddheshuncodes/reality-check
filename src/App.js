@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import Questionnaire from "./pages/Questionnaire";
+import Result from "./pages/Result";
+import './css/App.css';
 
 function App() {
+  const [answers, setAnswers] = useState(null);
+
+  // This function will handle form submission
+  const handleFormSubmit = (formAnswers) => {
+    setAnswers(formAnswers);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        {/* Passing the handleFormSubmit as onSubmit */}
+        <Route path="/" element={<Home />} />
+        <Route path="/check" element={<Questionnaire onSubmit={handleFormSubmit} />} />
+        <Route path="/result" element={<Result answers={answers} />} />
+      </Routes>
+    </Router>
   );
 }
 
